@@ -10,23 +10,24 @@
     <h1>Gatos Aleatorios</h1>
     <section id="randomCats">
         <h2>Cats Random</h2>
+        <span id="error"></span>
         <article>
             <img id="img1" width="250" alt="Gatos">
-            <button>Save Cat</button>
+            <button id="btn" onclick="saveFavouriteCat()">Save Cat</button>
         </article>
         <article>
             <img id="img2" width="250" alt="Gatos">
-            <button>Save Cat</button>
+            <button id="btn" onclick="saveFavouriteCat()">Save Cat</button>
         </article>
         <article>
             <img id="img3" width="250" alt="Gatos">
-            <button>Save Cat</button>
+            <button id="btn" onclick="saveFavouriteCat()">Save Cat</button>
         </article>
-        <button onclick="reload()">Ver Gato</button>
+        <button onclick="loadRandomCats()">Random Cats</button>
     </section>
 
     <section id="favoritesCats">
-        <h2>Cats Favorites</h2>
+        <h2>Cats Favourites</h2>
         <article>
             <img id="img1" width="250" alt="Gatos">
             <button>Quitar Cat</button>
