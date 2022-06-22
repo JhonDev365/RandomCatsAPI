@@ -1,10 +1,12 @@
-const API_URL = 'https://api.thecatapi.com/v1/images/search?limit=3&api_key=1524e679-c8da-496b-ad90-2bd4cad93b33'; 
+const API_KEY = '1524e679-c8da-496b-ad90-2bd4cad93b33';
 
-const API_URL_FAVORITES = 'https://api.thecatapi.com/v1/favourites?api_key=1524e679-c8da-496b-ad90-2bd4cad93b33'; 
+const API_URL = 'https://api.thecatapi.com/v1/images/search?limit=3'; 
 
-const API_URL_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}?api_key=1524e679-c8da-496b-ad90-2bd4cad93b33`; 
+const API_URL_FAVORITES = 'https://api.thecatapi.com/v1/favourites'; 
 
+const API_URL_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}`; 
 
+// va sin =>  ?api_key=  al utilizarla como authorization header
 const spanError = document.getElementById('error');
 // consumir Api rest con fetch
 // fetch(URL)
@@ -22,7 +24,7 @@ async function loadRandomCats() {
     // img.src = data[0].url;
 
     if (res.status !== 200){
-        spanError.innerHTML = `Error ${res.status} in Catland. ${data.message}.`;
+        spanError.innerHTML = `Error ${res.status} Load in Catland. ${data.message}.`;
     } else {
         const img1 = document.getElementById('img1');
         const img2 = document.getElementById('img2');
@@ -52,11 +54,15 @@ async function loadRandomCats() {
 }
 
 async function loadFavoritesCats() {
-    const res = await fetch(API_URL_FAVORITES); 
+    const res = await fetch(API_URL_FAVORITES, {
+        //enviada por Authorization headers
+        method: 'GET',
+        headers: { 'x-api-key': API_KEY, },
+    }); 
     const data = await res.json();
     
     if (res.status !== 200){
-        spanError.innerHTML = `Error ${res.status} in Catland`;
+        spanError.innerHTML = `Error ${res.status} LoadF in Catland`;
     } else {
         const section = document.getElementById('favouriteCats')
         section.innerHTML = "";
@@ -87,12 +93,13 @@ async function loadFavoritesCats() {
 async function saveFavouriteCat(id) {
     const res = await fetch(API_URL_FAVORITES, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json',},
+        headers: { 'Content-Type': 'application/json',
+        'x-api-key': API_KEY, },
         body: JSON.stringify({image_id: id}),
     });
     const data = await res.json();
     if (res.status !== 200){
-        spanError.innerHTML = `Error ${res.status} in Catland`;
+        spanError.innerHTML = `Error ${res.status} SAVE in Catland`;
     } else {
         console.log('Cat Saved');
         loadFavoritesCats();
@@ -102,10 +109,11 @@ async function saveFavouriteCat(id) {
 async function deleteFavouriteCat(id) {
     const res = await fetch(API_URL_DELETE(id), {
         method: 'DELETE',
+        headers: { 'x-api-key': API_KEY, }
     });
     const data = await res.json();
     if (res.status !== 200){
-        spanError.innerHTML = `Error ${res.status} in Catland`;
+        spanError.innerHTML = `Error ${res.status} DEL in Catland`;
     } else {
         console.log('Cat Delete');
         loadFavoritesCats();
