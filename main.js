@@ -2,7 +2,10 @@ const API_KEY = '1524e679-c8da-496b-ad90-2bd4cad93b33';
 
 const API_URL = 'https://api.thecatapi.com/v1/images/search?limit=3'; 
 
-const API_URL_FAVORITES = 'https://api.thecatapi.com/v1/favourites'; 
+const API_URL_FAVORITES = 'https://api.thecatapi.com/v1/favourites';
+
+const API_URL_UPLOAD = 'https://api.thecatapi.com/v1/images/upload'; 
+
 
 const API_URL_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}`; 
 
@@ -117,6 +120,29 @@ async function deleteFavouriteCat(id) {
     } else {
         console.log('Cat Delete');
         loadFavoritesCats();
+    }
+}
+
+async function uploadCatPhoto() {
+    const form = document.getElementById('uploadingForm');
+    const formData = new FormData(form);
+    const res = await fetch(API_URL_UPLOAD, {
+        method: 'POST',
+        headers: { 
+            // 'Content-Type': 'multipart/form-data', 
+            'x-api-key': API_KEY, },
+        body: formData,
+    })
+    const data = await res.json();
+
+    if (res.status !== 201) {
+        spanError.innerHTML = `Hubo un error al subir michi: ${res.status} ${data.message}`
+    } else {
+        console.log("Foto de michi cargada :)");
+        console.log({ data });
+        console.log(data.url);
+        loadFavoritesCats();
+        saveFavouriteCat(data.id) //para agregar el michi cargado a favoritos.
     }
 }
 
