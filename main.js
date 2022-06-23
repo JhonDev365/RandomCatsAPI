@@ -1,4 +1,4 @@
-const API_KEY = '1524e679-c8da-496b-ad90-2bd4cad93b33';
+const API_KEY = '';
 
 const API_URL = 'https://api.thecatapi.com/v1/images/search?limit=3'; 
 
@@ -136,13 +136,13 @@ async function uploadCatPhoto() {
     const data = await res.json();
 
     if (res.status !== 201) {
-        spanError.innerHTML = `Hubo un error al subir michi: ${res.status} ${data.message}`
+        spanError.innerHTML = `Hubo un error al subir michi: ${res.status} ${data.message}`;
     } else {
         console.log("Foto de michi cargada :)");
         console.log({ data });
         console.log(data.url);
         loadFavoritesCats();
-        saveFavouriteCat(data.id) //para agregar el michi cargado a favoritos.
+        saveFavouriteCat(data.id); //para agregar el michi cargado a favoritos.
     }
 }
 
